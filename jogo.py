@@ -1,2 +1,2 @@
-print("oi")
-oi Marina
+import pygame as py
+
