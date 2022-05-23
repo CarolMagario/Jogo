@@ -1,0 +1,28 @@
+pygame KEYUP, K_UP and K_DOWN
+import pygame
+#exercício 1
+pygame.init()
+
+
+# ----- Gera tela principal
+window = pygame.display.set_mode((600, 300))
+pygame.display.set_caption('Dessoft')
+
+# ----- Inicia estruturas de dados
+game = True
+
+# ===== Loop principal =====
+while game:
+    # ----- Trata eventos
+    for event in pygame.event.get():
+        # ----- Verifica consequências
+        if event.type == pygame.QUIT:
+            game = False
+
+    # ----- Gera saídas
+    window.fill((0, 0, 255))  # Preenche com a cor azul
+
+    # ----- Atualiza estado do jogo
+    pygame.display.update()  # Mostra o novo frame para o jogador
+    # ===== Finalização =====
+    
