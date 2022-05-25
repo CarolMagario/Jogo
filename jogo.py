@@ -4,7 +4,9 @@ from pygame.locals import *
 
 pygame.init()
  
-screen = pygame.display.set_mode((600,800))
+screen_largura = 600
+screen_altura = 800
+screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
 
 #Declarar variáveis
@@ -20,6 +22,8 @@ CANO_top = pygame.transform.scale(CANO_de_cima,tamanho_ideal)
 CANO_bottom = pygame.transform.scale(CANO_debaixo,tamanho_ideal)
 cano_altura = 260
 cano_buraco = 300
+cano_velocidade = 10
+cano_largura = 240
 
 acabou = False
 pulo = False 
@@ -38,6 +42,9 @@ while not acabou :
             pulo = True
 
     #lógica do jogo
+    cano[0] -= cano_velocidade
+    if cano[0] < -cano_largura:
+        cano[0] = screen_largura
 
     #desenhar gráficos
     screen.fill((0,0,0))
