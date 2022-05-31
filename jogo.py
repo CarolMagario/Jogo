@@ -5,7 +5,7 @@ import random as r
 
 pygame.init()
  
-screen_largura = 500
+screen_largura = 600
 screen_altura = 800
 screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
@@ -26,11 +26,14 @@ cano_buraco = r.randint(150,300)
 cano_velocidade = 7
 cano_largura = 52
 # Bichinho
-raposa = pygame.image.load("Jogo/Imagens/fox2_preview_rev_1.png").convert_alpha()
-
+Raposa = pygame.image.load("Jogo/Imagens/raposinha.png").convert_alpha()
+tamanho_ideal_raposa = (200,95)
+RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
+###########
 acabou = False
 pulo = False 
 cano = [50,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
+raposa = [50,250]
 
 #Loop principal do jogo
 while not acabou :
@@ -64,7 +67,7 @@ while not acabou :
     screen.blit(CANO_bottom, (cano[0], cano[1]+cano_buraco/2))
 
     #bichinho
-    screen.blit(raposa, (200,200))
+    screen.blit(RAPOSA, raposa, (0,0,50,190))
     pygame.display.update()
     fps.tick(25)
 
