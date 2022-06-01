@@ -29,6 +29,7 @@ cano_largura = 52
 Raposa = pygame.image.load("Jogo/Imagens/raposinha.png").convert_alpha()
 tamanho_ideal_raposa = (200,95)
 RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
+raposa_animaçao = 0
 ###########
 acabou = False
 pulo = False 
@@ -67,7 +68,10 @@ while not acabou :
     screen.blit(CANO_bottom, (cano[0], cano[1]+cano_buraco/2))
 
     #bichinho
-    screen.blit(RAPOSA, raposa, (0,0,50,190))
+    screen.blit(RAPOSA, raposa, (0,raposa_animaçao*190,50,190))
+    raposa_animaçao += 1
+    if raposa_animaçao > 4:
+        raposa_animaçao = 0
     pygame.display.update()
     fps.tick(25)
 
