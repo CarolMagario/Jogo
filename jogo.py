@@ -34,7 +34,7 @@ raposa_animaçao = 0
 acabou = False
 pulo = False 
 cano = [50,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
-raposa = [50,250]
+raposa = [50,0]
 movimento=0
 
 #Loop principal do jogo
@@ -51,9 +51,11 @@ while not acabou :
 
     #lógica do jogo
     if pulo:
-        movimento=50
+        movimento= 20
         pulo=False
     raposa[1] -= movimento
+    if movimento>-20:
+        movimento -= 2
     cano[0] -= cano_velocidade
     if cano[0] < -cano_largura:
         cano[0] = screen_largura
@@ -79,6 +81,10 @@ while not acabou :
         raposa_animaçao = 0
     pygame.display.update()
     fps.tick(25)
+
+    #colisão bichinho e cano
+    cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
+    cano_bottom_rect= CANO_bottom
 
 #fim do loop, fim do jogo
 pygame.quit()
