@@ -11,11 +11,11 @@ screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
 
 #Declarar variáveis
-BACKGROUND = pygame.image.load("Jogo/Imagens/33HF.gif").convert_alpha()
-BASE = pygame.image.load("Jogo/Imagens/ground.png").convert_alpha()
-raposa = pygame.image.load("Jogo/Imagens/fox2_preview_rev_1.png").convert_alpha()
+BACKGROUND = pygame.image.load("./Imagens/33HF.gif").convert_alpha()
+BASE = pygame.image.load("./Imagens/ground.png").convert_alpha()
+raposa = pygame.image.load("./Imagens/fox2_preview_rev_1.png").convert_alpha()
 #canos sem dimensão
-CANO_debaixo =  pygame.image.load('Jogo/cano2.png').convert_alpha()
+CANO_debaixo =  pygame.image.load('./cano2.png').convert_alpha()
 CANO_de_cima = pygame.transform.flip(CANO_debaixo, False, True).convert_alpha()
 #canos dimensionados
 tamanho_ideal = (100,550)
@@ -26,7 +26,7 @@ cano_buraco = r.randint(150,300)
 cano_velocidade = 7
 cano_largura = 52
 # Bichinho
-Raposa = pygame.image.load("Jogo/Imagens/raposinha.png").convert_alpha()
+Raposa = pygame.image.load("./Imagens/raposinha.png").convert_alpha()
 tamanho_ideal_raposa = (200,95)
 RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
 raposa_animaçao = 0
@@ -35,6 +35,7 @@ acabou = False
 pulo = False 
 cano = [50,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
 raposa = [50,250]
+movimento=0
 
 #Loop principal do jogo
 while not acabou :
@@ -49,6 +50,10 @@ while not acabou :
             pulo = True
 
     #lógica do jogo
+    if pulo:
+        movimento=50
+        pulo=False
+    raposa[1] -= movimento
     cano[0] -= cano_velocidade
     if cano[0] < -cano_largura:
         cano[0] = screen_largura
