@@ -1,0 +1,62 @@
+import pygame, sys
+import random as r
+
+from regex import D
+
+pygame.init()
+clock = pygame.time.Clock()      
+
+class Canos(pygame.sprite.Sprite):
+    # def __init__(self, largura, altura, eixox,eixoy, cor):
+    #     super().__init__()
+    #     self.image = pygame.Surface([largura,altura])
+    #     self.image.fill(cor)
+    #     self.rect = self.image.get_rect()
+    #     self.rect.center = [eixox,eixoy]   
+    def __init__(self,x,y0,y1,y2):
+        super().__init__()
+        self.gap = r.randint(y1,y2)
+        self.posiçãoc1 = (x,y0+self.gap)
+
+
+screen_w = 600
+screen_h = 800
+screen = pygame.display.set_mode((screen_w,screen_h))
+
+
+BACKGROUND = pygame.image.load("Jogo/Imagens/33HF.gif").convert_alpha()
+BASE = pygame.image.load("Jogo/Imagens/ground.png").convert_alpha()
+raposa = pygame.image.load("Jogo/Imagens/fox2_preview_rev_1.png").convert_alpha()
+CANO_bottom  =  pygame.image.load('Jogo/cano2.png').convert_alpha()
+CANO_top = pygame.transform.flip(CANO_bottom, False, True).convert_alpha()
+tamanho_ideal = (100,400)
+CANO_de_cima= pygame.transform.scale(CANO_top,tamanho_ideal)
+CANO_debaixo= pygame.transform.scale(CANO_bottom,tamanho_ideal)
+
+# canos = Canos(50,50,100,100,(255,255,255))
+
+
+
+# canos_grupo = pygame.sprite.Group()
+# canos_grupo.add(canos)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        
+    #deixar negativo para ir para baixo e depois positivo para ir para cima huum
+    
+    canos = Canos(300,100,100,200)
+    
+    screen.blit(BACKGROUND,(0,0))
+    screen.blit(CANO_de_cima, (canos))
+    screen.blit(CANO_debaixo, (300,100))
+    pygame.display.flip()
+    # canos_grupo.draw(screen)
+    clock.tick(25)
+    1
+
+
+
