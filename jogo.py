@@ -37,59 +37,6 @@ pulo = False
 cano = [50,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
 raposa = [50,0]
 movimento=0
-################
-#Animação 
-class Animation(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
-        super().__init__()
-        self.sprites = []
-        self.is_animating = False
-        self.sprites.append(pygame.image.load('raposinha1.png'))
-        self.sprites.append(pygame.image.load('raposinha2.png'))
-        self.sprites.append(pygame.image.load('raposinha3.png'))
-        self.sprites.append(pygame.image.load('raposinha4.png'))
-        self.current_sprite = 0
-        self.image = self.sprites[self.current_sprite]
-        self.rect = self.image.get_rect()
-        self.rect.topleft = [pos_x,pos_y]
-
-    def animate(self):
-        self.is_animating = True
-    def update(self):
-        if self.is_animating == True:
-            self.current_sprite += 0.2
-            if self.current_sprite>= len(self.sprites):
-                self.current_sprite = 0
-                self.is_animating = False #faz com que ocorra apenas uma vez a animação
-            self.image = self.sprites[int(self.current_sprite)]
-
-pygame.init()
-clock = pygame.time.Clock()
-
-screen_width = 100
-screen_height = 100
-screen = pygame.display.set_mode((screen_width,screen_height))
-pygame.display.set_caption("Sprite Animation")
-
-moving_sprites = pygame.sprite.Group()
-raposinha = Animation(50,50)
-moving_sprites.add(raposinha)
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.KEYDOWN: 
-            raposinha.animate()
-
-
-    screen.fill((250,250,250))
-    moving_sprites.draw(screen)
-    moving_sprites.update()
-    pygame.display.flip()
-    clock.tick(100)
-    
 
 #Loop principal do jogo
 while not acabou :
