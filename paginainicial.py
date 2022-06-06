@@ -4,9 +4,11 @@ import pygame, sys
 from pygame.locals import *
 import random as r
 
-fontepeq= pygame.font.SysFont("comicsansms", 25)
-fontemed= pygame.font.SysFont("comicsansms", 50)
-fontegran= pygame.font.SysFont("comicsansms", 80)
+pygame.init()
+window = pygame.display.set_mode((500, 400))
+fontepeq= pygame.font.SysFont("Arial", 25)
+fontemed= pygame.font.SysFont("Arial", 50)
+fontegran= pygame.font.SysFont("Arial", 80)
 def introdojogo():
     intro=True
     while intro:
@@ -14,10 +16,10 @@ def introdojogo():
             if event.type==pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.tyoe==pygame.KEYDOWN:
-                if event.key==pygame.K_space:
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_SPACE:
                     intro=False
-                if event.key==pygame.k_esc:
+                if event.key==pygame.K_ESCAPE:
                     pygame.quit()
                     quit()
     gameDisplay.fill("white")
@@ -39,3 +41,4 @@ def introdojogo():
             180)
     pygame.display.update()
     clock.tick(15)
+introdojogo()
