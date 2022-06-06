@@ -1,5 +1,5 @@
 from turtle import window_height
-import pygame 
+import pygame
 from pygame.locals import *
 import random as r
 
@@ -10,6 +10,7 @@ screen_altura = 800
 screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
 
+#Página inicial
 #Declarar variáveis
 BACKGROUND = pygame.image.load("./Imagens/33HF.gif").convert_alpha()
 BASE = pygame.image.load("./Imagens/ground.png").convert_alpha()
@@ -84,7 +85,18 @@ while not acabou :
 
     #colisão bichinho e cano
     cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
-    cano_bottom_rect= CANO_bottom
+    cano_bottom_rect= CANO_bottom.get_rect(topleft=(cano[0], cano[1]+cano_buraco/2))
+    raposa_rect= Rect(raposa[0], raposa[1], 50, 190)
+    if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect):
+        #Colisão
+        lives-=1
+        raposa = [50,0]
 
+        if lives==0:
+            finished=True
+
+    #atualizar tela
+    pygame.display.update()
+    fps.tick(25)
 #fim do loop, fim do jogo
 pygame.quit()
