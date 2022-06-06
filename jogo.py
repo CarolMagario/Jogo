@@ -66,10 +66,10 @@ while not acabou :
 
     #lógica do jogo
     if pulo:
-        movimento= 20
+        movimento= 15 
         pulo=False
-    raposa[1] -= movimento
-    if movimento>-20:
+    raposinha.rect.y -= movimento
+    if movimento>-15:
         movimento -= 2
     cano[0] -= cano_velocidade
     if cano[0] < -cano_largura:
@@ -107,7 +107,7 @@ while not acabou :
     #colisão bichinho e cano
     cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
     cano_bottom_rect= CANO_bottom.get_rect(topleft=(cano[0], cano[1]+cano_buraco/2))
-    raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, 50, 190)
+    raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, raposinha.tamanho_ideal_raposa[0],  raposinha.tamanho_ideal_raposa[1])
 
     if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect):
         #Colisão

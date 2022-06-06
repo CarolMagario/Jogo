@@ -5,11 +5,11 @@ class Raposa(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         self.is_animating = False
-        tamanho_ideal_raposa = (70,95)
-        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha1.png'),tamanho_ideal_raposa))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha2.png'),tamanho_ideal_raposa))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha3.png'),tamanho_ideal_raposa))
-        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha4.png'),tamanho_ideal_raposa))
+        self.tamanho_ideal_raposa = (35,47.5)
+        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha1.png'),self.tamanho_ideal_raposa))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha2.png'),self.tamanho_ideal_raposa))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha3.png'),self.tamanho_ideal_raposa))
+        self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha4.png'),self.tamanho_ideal_raposa))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
         self.rect = self.image.get_rect()
