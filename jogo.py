@@ -10,9 +10,19 @@ screen_largura = 600
 screen_altura = 800
 screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
+imageminicial=pygame.image.load("./Imagens/pixil-frame-0.png").convert_alpha()
+imageminicial = pygame.transform.scale(imageminicial,(600,800))
 
+inicio=False
 #Página inicial
-
+while not inicio:
+    fps.tick(25)
+    screen.blit(imageminicial, (0,0) )
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                inicio= True 
 
 #Declarar variáveis
 BACKGROUND = pygame.image.load("./Imagens/33HF.gif").convert_alpha()
@@ -39,19 +49,12 @@ moving_sprites.add(raposinha)
 # raposa_animaçao = 0
 ###########
 acabou = False
-inicio=False
 pulo = False 
 cano = [500,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
 raposa = [50,0]
 movimento=0
 lives=4
-#inicio
-while not inicio:
-    for event in pygame.event.get():
-        if event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                inicio= True 
-                
+        
 #Loop principal do jogo
 while not acabou :
     #processar eventos do mouse e do teclado
