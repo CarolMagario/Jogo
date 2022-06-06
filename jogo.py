@@ -2,6 +2,7 @@ from turtle import window_height
 import pygame
 from pygame.locals import *
 import random as r
+from Animacao import *
 
 pygame.init() 
 
@@ -28,16 +29,19 @@ cano_altura = 600
 cano_buraco = r.randint(150,300) 
 cano_velocidade = 7
 cano_largura = 52
+raposinha = Raposa(50,50)
+moving_sprites = pygame.sprite.Group()
+moving_sprites.add(raposinha)
 # Bichinho
-Raposa = pygame.image.load("./Imagens/raposinha.png").convert_alpha()
-tamanho_ideal_raposa = (200,95)
-RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
-raposa_animaçao = 0
+# Raposa = pygame.image.load("./Imagens/raposinha.png").convert_alpha()
+# tamanho_ideal_raposa = (200,95)
+# RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
+# raposa_animaçao = 0
 ###########
 acabou = False
 inicio=False
 pulo = False 
-cano = [50,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
+cano = [500,200] # localização no eixo x dos dois canos, localização no eixo y do topo do cano
 raposa = [50,0]
 movimento=0
 lives=4
@@ -81,22 +85,29 @@ while not acabou :
     #base
     screen.blit(BASE,(0,700))
 
+
     #canos
     screen.blit(CANO_top, (cano[0], cano[1]-cano_altura))
     screen.blit(CANO_bottom, (cano[0], cano[1]+cano_buraco/2))
 
     #bichinho
-    screen.blit(RAPOSA, raposa, (0,raposa_animaçao*190,50,190))
-    raposa_animaçao += 1
-    if raposa_animaçao > 4:
-        raposa_animaçao = 0
-    pygame.display.update()
-    fps.tick(25)
+    raposinha.update()
+
+    moving_sprites.draw(screen)
+        # clock.tick(100)
+
+
+    # screen.blit(RAPOSA, raposa, (0,raposa_animaçao*190,50,190))
+    # raposa_animaçao += 1
+    # if raposa_animaçao > 4:
+    #     raposa_animaçao = 0
+    # pygame.display.update()
+    # fps.tick(25)
 
     #colisão bichinho e cano
     cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
     cano_bottom_rect= CANO_bottom.get_rect(topleft=(cano[0], cano[1]+cano_buraco/2))
-    raposa_rect= Rect(raposa[0], raposa[1], 50, 190)
+    raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, 50, 190)
 
     if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect):
         #Colisão
@@ -104,7 +115,7 @@ while not acabou :
         raposa = [50,0]
 
         if lives==0:
-            finished=True
+           acabou = True
 
     #atualizar tela
     pygame.display.update()
