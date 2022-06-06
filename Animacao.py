@@ -5,7 +5,7 @@ class Raposa(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         self.is_animating = False
-        tamanho_ideal_raposa = (140,190)
+        tamanho_ideal_raposa = (70,95)
         self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha1.png'),tamanho_ideal_raposa))
         self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha2.png'),tamanho_ideal_raposa))
         self.sprites.append(pygame.transform.scale(pygame.image.load('raposinha3.png'),tamanho_ideal_raposa))
