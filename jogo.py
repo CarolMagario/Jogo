@@ -5,6 +5,7 @@ import random as r
 from Animacao import *
 from Fundo import *
 
+
 pygame.init() 
 
 screen_largura = 600
@@ -34,6 +35,9 @@ fundo = Fundo(0,700)
 moving_sprites = pygame.sprite.Group()
 moving_sprites.add(fundo)
 
+# Sons
+MORRE = pygame.mixer.Sound("./Imagens/media_hit.wav")
+PULA =  pygame.mixer.Sound("./Imagens/pulinho.wav")
 #canos sem dimensão
 CANO_debaixo =  pygame.image.load('./Imagens/canoazul.png').convert_alpha()
 CANO_de_cima = pygame.transform.flip(CANO_debaixo, False, True).convert_alpha()
@@ -59,9 +63,6 @@ raposa = [50,0]
 movimento=0
 lives=4
 
-#Função de restart
-# def_gam
-
 
 #Loop principal do jogo
 while not acabou :
@@ -74,11 +75,12 @@ while not acabou :
                 pulo = True
         if event.type == MOUSEBUTTONDOWN:
             pulo = True
-
+            
     #lógica do jogo
     if pulo:
         movimento= 15 
         pulo=False
+        PULA.play()
     raposinha.rect.y -= movimento
     if movimento>-15:
         movimento -= 2
@@ -118,11 +120,13 @@ while not acabou :
 
     if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect) or raposa_rect.colliderect(base_rect):
         #Colisão
+        
         lives-=1
         raposa = [50,0]
 
         if lives==0:
-           acabou = True
+            MORRE.play()
+            acabou = True
 
     #atualizar tela
     pygame.display.update()
