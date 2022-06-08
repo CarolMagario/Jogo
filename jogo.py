@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
 imageminicial=pygame.image.load("./Imagens/pixil-frame-0.png").convert_alpha()
 imageminicial = pygame.transform.scale(imageminicial,(600,800))
-imagemfinal = pygame.image.load("./Imagens/pixil-frame-0-2.png").convert_alpha()
+imagemfinal = pygame.image.load("./Imagens/pixil-frame-0-2-1.png").convert_alpha()
 imagemfinal = pygame.transform.scale(imagemfinal,(600,800))
 
 inicio=False
@@ -45,6 +45,8 @@ CANO_de_cima = pygame.transform.flip(CANO_debaixo, False, True).convert_alpha()
 jogo = True
 
 while jogo:
+
+    tempo = 0
     #canos dimensionados
     tamanho_ideal = (100,550)
     CANO_top = pygame.transform.scale(CANO_de_cima,tamanho_ideal)
@@ -69,7 +71,9 @@ while jogo:
 
 #Loop principal do jogo
     while not acabou :
-
+        tempo += 1/25
+        print(round(tempo))
+        
         #processar eventos do mouse e do teclado
         for event in pygame.event.get():
             if event.type == KEYDOWN:
