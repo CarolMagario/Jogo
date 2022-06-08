@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 import random as r
 from Animacao import *
+from Fundo import *
 
 pygame.init() 
 
@@ -27,12 +28,16 @@ while not inicio:
                 inicio= True 
 
 #Declarar variáveis
-BACKGROUND = pygame.image.load("./Imagens/33HF.gif").convert_alpha()
+BACKGROUND = pygame.image.load("./frame_05_delay-0.129s.png").convert_alpha()
 BASE = pygame.image.load("./Imagens/ground.png").convert_alpha()
-raposa = pygame.image.load("./Imagens/fox2_preview_rev_1.png").convert_alpha()
+fundo = Fundo(0,700)
+moving_sprites = pygame.sprite.Group()
+moving_sprites.add(fundo)
+
 #canos sem dimensão
-CANO_debaixo =  pygame.image.load('./cano2.png').convert_alpha()
+CANO_debaixo =  pygame.image.load('./Imagens/canoazul.png').convert_alpha()
 CANO_de_cima = pygame.transform.flip(CANO_debaixo, False, True).convert_alpha()
+
 #canos dimensionados
 tamanho_ideal = (100,550)
 CANO_top = pygame.transform.scale(CANO_de_cima,tamanho_ideal)
@@ -87,7 +92,9 @@ while not acabou :
 
     #background
     screen.blit(BACKGROUND, (0,0)) 
-    
+    # fundo.update()
+    # moving_sprites.draw(screen)
+
     #base
     screen.blit(BASE,(0,700))
 
@@ -95,20 +102,21 @@ while not acabou :
     #canos
     screen.blit(CANO_top, (cano[0], cano[1]-cano_altura))
     screen.blit(CANO_bottom, (cano[0], cano[1]+cano_buraco/2))
+    
 
-    #bichinho
+    #bichinho 2.0
     raposinha.update()
-
     moving_sprites.draw(screen)
-        # clock.tick(100)
+  
 
 
     #colisão bichinho e cano
     cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
     cano_bottom_rect= CANO_bottom.get_rect(topleft=(cano[0], cano[1]+cano_buraco/2))
     raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, raposinha.tamanho_ideal_raposa[0],  raposinha.tamanho_ideal_raposa[1 ])
+    base_rect = BASE.get_rect(topleft=(0,700))
 
-    if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect):
+    if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect) or raposa_rect.colliderect(base_rect):
         #Colisão
         lives-=1
         raposa = [50,0]
@@ -123,13 +131,14 @@ while not acabou :
 fim=False
 #Página final
 while not fim:
-
     screen.blit(imagemfinal, (0,0) )
     pygame.display.update()
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 fim= True
+                pygame.quit()
             if event.type == K_SPACE:
-                acabou = True
-pygame.quit()
+                acabou = False
+                input()
+
