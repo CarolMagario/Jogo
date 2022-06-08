@@ -3,6 +3,8 @@ import pygame
 from pygame.locals import *
 import random as r
 from Animacao import *
+from Fundo import *
+
 
 pygame.init() 
 
@@ -12,6 +14,8 @@ screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
 imageminicial=pygame.image.load("./Imagens/pixil-frame-0.png").convert_alpha()
 imageminicial = pygame.transform.scale(imageminicial,(600,800))
+imagemfinal = pygame.image.load("./Imagens/pixil-frame-0-2.png").convert_alpha()
+imagemfinal = pygame.transform.scale(imagemfinal,(600,800))
 
 inicio=False
 #Página inicial
@@ -25,12 +29,19 @@ while not inicio:
                 inicio= True 
 
 #Declarar variáveis
-BACKGROUND = pygame.image.load("./Imagens/33HF.gif").convert_alpha()
+BACKGROUND = pygame.image.load("./frame_05_delay-0.129s.png").convert_alpha()
 BASE = pygame.image.load("./Imagens/ground.png").convert_alpha()
-raposa = pygame.image.load("./Imagens/fox2_preview_rev_1.png").convert_alpha()
+fundo = Fundo(0,700)
+moving_sprites = pygame.sprite.Group()
+moving_sprites.add(fundo)
+
+# Sons
+MORRE = pygame.mixer.Sound("./Imagens/media_hit.wav")
+PULA =  pygame.mixer.Sound("./Imagens/pulinho.wav")
 #canos sem dimensão
-CANO_debaixo =  pygame.image.load('./cano2.png').convert_alpha()
+CANO_debaixo =  pygame.image.load('./Imagens/canoazul.png').convert_alpha()
 CANO_de_cima = pygame.transform.flip(CANO_debaixo, False, True).convert_alpha()
+
 #canos dimensionados
 tamanho_ideal = (100,550)
 CANO_top = pygame.transform.scale(CANO_de_cima,tamanho_ideal)
@@ -39,14 +50,11 @@ cano_altura = 600
 cano_buraco = r.randint(150,300) 
 cano_velocidade = 7
 cano_largura = 52
+
+# Bichinho
 raposinha = Raposa(50,50)
 moving_sprites = pygame.sprite.Group()
 moving_sprites.add(raposinha)
-# Bichinho
-# Raposa = pygame.image.load("./Imagens/raposinha.png").convert_alpha()
-# tamanho_ideal_raposa = (200,95)
-# RAPOSA = pygame.transform.scale(Raposa,tamanho_ideal_raposa)
-# raposa_animaçao = 0
 ###########
 acabou = False
 pulo = False 
@@ -54,7 +62,8 @@ cano = [500,200] # localização no eixo x dos dois canos, localização no eixo
 raposa = [50,0]
 movimento=0
 lives=4
-        
+
+
 #Loop principal do jogo
 while not acabou :
     #processar eventos do mouse e do teclado
@@ -66,11 +75,12 @@ while not acabou :
                 pulo = True
         if event.type == MOUSEBUTTONDOWN:
             pulo = True
-
+            
     #lógica do jogo
     if pulo:
         movimento= 15 
         pulo=False
+        PULA.play()
     raposinha.rect.y -= movimento
     if movimento>-15:
         movimento -= 2
@@ -84,7 +94,9 @@ while not acabou :
 
     #background
     screen.blit(BACKGROUND, (0,0)) 
-    
+    # fundo.update()
+    # moving_sprites.draw(screen)
+
     #base
     screen.blit(BASE,(0,700))
 
@@ -92,36 +104,45 @@ while not acabou :
     #canos
     screen.blit(CANO_top, (cano[0], cano[1]-cano_altura))
     screen.blit(CANO_bottom, (cano[0], cano[1]+cano_buraco/2))
+    
 
-    #bichinho
+    #bichinho 2.0
     raposinha.update()
-
     moving_sprites.draw(screen)
-        # clock.tick(100)
+  
 
-
-    # screen.blit(RAPOSA, raposa, (0,raposa_animaçao*190,50,190))
-    # raposa_animaçao += 1
-    # if raposa_animaçao > 4:
-    #     raposa_animaçao = 0
-    # pygame.display.update()
-    # fps.tick(25)
 
     #colisão bichinho e cano
     cano_top_rect = CANO_top.get_rect(topleft=(cano[0], cano[1]-cano_altura))
     cano_bottom_rect= CANO_bottom.get_rect(topleft=(cano[0], cano[1]+cano_buraco/2))
-    raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, raposinha.tamanho_ideal_raposa[0],  raposinha.tamanho_ideal_raposa[1])
+    raposa_rect= Rect(raposinha.rect.x, raposinha.rect.y, raposinha.tamanho_ideal_raposa[0],  raposinha.tamanho_ideal_raposa[1 ])
+    base_rect = BASE.get_rect(topleft=(0,700))
 
-    if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect):
+    if raposa_rect.colliderect(cano_bottom_rect) or raposa_rect.colliderect(cano_top_rect) or raposa_rect.colliderect(base_rect):
         #Colisão
+        
         lives-=1
         raposa = [50,0]
 
         if lives==0:
-            acabou= True 
+            MORRE.play()
+            acabou=True
 
     #atualizar tela
     pygame.display.update()
     fps.tick(25)
-#fim do loop, fim do jogo
-pygame.quit()
+    #fim do loop, fim do jogo
+    fim=False
+#Página final
+while not fim:
+    screen.blit(imagemfinal, (0,0) )
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                fim= True
+                pygame.quit()
+            if event.type == K_SPACE:
+                acabou = False
+                input()
+
