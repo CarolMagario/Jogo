@@ -1,3 +1,4 @@
+
 from turtle import window_height
 import pygame
 from pygame.locals import *
@@ -6,12 +7,14 @@ from Animacao import *
 from Fundo import *
 
 
+
 pygame.init() 
 
 screen_largura = 600
 screen_altura = 800
 screen = pygame.display.set_mode((screen_largura,screen_altura))
 fps = pygame.time.Clock()
+fps2 = pygame.time.Clock()
 imageminicial=pygame.image.load("./Imagens/pixil-frame-0.png").convert_alpha()
 imageminicial = pygame.transform.scale(imageminicial,(600,800))
 imagemfinal = pygame.image.load("./Imagens/pixil-frame-0-2-1.png").convert_alpha()
@@ -34,6 +37,8 @@ BASE = pygame.image.load("./Imagens/ground.png").convert_alpha()
 fundo = Fundo(0,700)
 moving_sprites = pygame.sprite.Group()
 moving_sprites.add(fundo)
+font = pygame.font.SysFont("georgia", 25)
+BLACK = (0,0,0)
 
 # Sons
 MORRE = pygame.mixer.Sound("./Imagens/media_hit.wav")
@@ -71,9 +76,11 @@ while jogo:
 
 #Loop principal do jogo
     while not acabou :
-        tempo += 1/25
-        print(round(tempo))
-        
+        # tempo += 1/25
+        # output_string = "Tempo: {0}s".format(round(tempo))
+        # text = font.render(output_string, True, BLACK)
+        # screen.blit(text, [440, 40])
+        # pygame.display.update()
         #processar eventos do mouse e do teclado
         for event in pygame.event.get():
             if event.type == KEYDOWN:
@@ -139,6 +146,14 @@ while jogo:
         #atualizar tela
         pygame.display.update()
         fps.tick(25)
+        
+        
+        if lives > 0:
+            tempo += 1/100
+            output_string = "Pontos: {0}".format(round(tempo))
+            text = font.render(output_string, True, BLACK)
+            screen.blit(text, [440, 40])
+            pygame.display.update()  
         #fim do loop, fim do jogo
         fim=False
     #Página final
